@@ -1,0 +1,95 @@
+// app global css in SCSS form
+.form-box {
+    padding: 30px 20px;
+    width  : 100%
+}
+
+.flex {
+    &-column {
+        flex-direction: column;
+    }
+
+    &-a {
+        &--center {
+            align-items: center;
+        }
+    }
+
+    &-between {
+        justify-content: space-between;
+    }
+}
+
+.size {
+    &-w {
+        &--full {
+            width: 100%;
+        }
+    }
+}
+
+.container {
+    min-height: 500px;
+    margin-top: 20px;
+    padding   : 0 10px;
+}
+
+.add-question {
+    position  : fixed;
+    width     : 100%;
+    height    : 100%;
+    background: #fff;
+    z-index   : 3;
+    bottom    : 0;
+    left      : 0;
+    top       : 70px;
+    padding   : 10px;
+}
+
+.form-box {
+    border       : 1px solid #eeeeee;
+    padding      : 10px;
+    border-radius: 8px;
+    box-shadow   : 0px 10px 20px #0099ff14;
+}
+
+.login-wrapper {
+    padding   : 15px;
+    margin-top: 45px;
+}
+
+.mytable {
+    .q-table__top {
+        border-bottom: 2px solid #1976d2;
+    }
+
+    .q-table__title {
+        font-size  : 16px;
+        font-weight: 600;
+    }
+}
+
+.q-stepper--horizontal .q-stepper__step-inner {
+    padding: 12px;
+}
+
+.q-stepper__header--standard-labels .q-stepper__tab {
+    min-height: 50px;
+}
+
+.q-stepper__nav {
+    display        : flex;
+    justify-content: flex-end;
+}
+
+.footer-actions {
+    display        : flex;
+    justify-content: flex-end;
+}
+
+.filter-section {
+    width        : 100%;
+    display      : flex;
+    align-items  : center;
+    margin-bottom: 10px;
+}
