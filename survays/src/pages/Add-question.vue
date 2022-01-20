@@ -5,7 +5,7 @@
         <q-form style="width: 100%" @submit="submit()">
           <q-stepper v-model="step" header-nav ref="stepper" color="primary" animated>
             <q-step :name="1" title="General info" icon="settings" :done="done1">
-              <div class="q-pb-sm">
+              <!-- <div class="q-pb-sm">
                 <q-select
                   filled
                   v-model="brand"
@@ -14,7 +14,7 @@
                   :dense="dense"
                   value=""
                 />
-              </div>
+              </div> -->
               <!-- <div class="q-pb-sm">
                 <q-select
                   filled
@@ -82,83 +82,38 @@
             >
               <div class="">
                 <div class="filter-section">
-                  <q-btn
+                  <!-- <q-btn
                     color="primary"
                     size="md"
                     icon="add"
                     style="margin-right: 8px"
                     @click="add()"
-                  />
-                  <div style="width: 150px">
+                  /> -->
+                  <div style="width: 100%">
                     <q-select
                       filled
                       v-model="brand"
                       :options="brandOptions"
                       label="Choose Brand"
                       :dense="dense"
+                      multiple
                       value=""
                     />
                   </div>
                 </div>
-                <div class="add-question" v-if="addMode">
-                  <div class="q-pb-lg flex flex-column flex-a--center">
-                    Ability of promo price
-                    <div class="flex flex-center q-pt-sm">
-                      <q-radio
-                        dense
-                        v-model="abilityofPromo"
-                        val="true"
-                        label="Yes"
-                        class="q-pr-md"
-                      />
-                      <q-radio dense v-model="abilityofPromo" val="false" label="No" />
-                    </div>
-                  </div>
-                  <div class="q-pb-sm">
-                    <q-select
-                      filled
-                      v-model="product"
-                      :options="productOptions"
-                      label="Product Name"
-                      :dense="dense"
-                      value=""
-                    />
-                  </div>
-                  <div class="q-pb-sm">
-                    <q-input
-                      type="number"
-                      dense
-                      filled
-                      v-model="shelfPrice"
-                      label="Shelf price in local currency"
-                    />
-                  </div>
-                  <div class="q-pb-md">
-                    <q-input
-                      type="number"
-                      dense
-                      filled
-                      v-model="shelfNotPromo"
-                      label="Shelf not promo price in local currency"
-                    />
-                  </div>
-                  <q-btn
-                    color="secondary"
-                    size="sm"
-                    label="save added Question"
-                    style="margin-bottom: 15px"
-                    @click="saveAddedQuestion()"
-                  />
-                </div>
+
                 <q-table
                   class="my-sticky-header-table mytable"
                   title="Price and Numeric Distribution"
                   :data="rows"
                   :columns="columns"
-                  row-key="name"
-                  hide-bottom
-                  :rows-per-page-options="[10]"
-                />
+                  row-key="ID"
+                  :selected-rows-label="getSelectedString"
+                  selection="single"
+                  :selected.sync="selected"
+                  @update:selected="getSelected"
+                >
+                </q-table>
               </div>
               <q-stepper-navigation class="footer-actions">
                 <q-btn
@@ -223,7 +178,6 @@ export default {
   name: "AddQuestions",
   data() {
     return {
-      addMode: false,
       prompt: false,
       dense: true,
       date: "",
@@ -234,6 +188,8 @@ export default {
       product: null,
       addPosName: null,
       addPosAddress: null,
+      selected: [],
+      checkAll: false,
       brandOptions: [
         { value: "1", label: "Rocher" },
         { value: "2", label: "Raffaello" },
@@ -263,15 +219,27 @@ export default {
         rowsPerPage: 10,
       },
       columns: [
-        { name: "product", label: "prdoduct", field: "product" },
+        { name: "ID", label: "ID", field: "ID", align: "left" },
+        { name: "product", label: "prdoduct", field: "product", align: "left" },
         {
           name: "abilityofPromo",
           label: "promo price",
           field: "abilityofPromo",
           sortable: true,
+          align: "center",
         },
-        { name: "shelfPrice", label: "shel fPrice", field: "shelfPrice" },
-        { name: "shelfNotPromo", label: "shelf Not Promo", field: "shelfNotPromo" },
+        {
+          name: "shelfPrice",
+          label: "shel fPrice",
+          field: "shelfPrice",
+          align: "center",
+        },
+        {
+          name: "shelfNotPromo",
+          label: "shelf Not Promo",
+          field: "shelfNotPromo",
+          align: "center",
+        },
       ],
       rows: [],
       step: 1,
@@ -294,9 +262,6 @@ export default {
       this.setQuestionState(question);
       this.$router.push("/");
     },
-    add() {
-      this.addMode = true;
-    },
     addPos() {
       let i = 100;
       let pos = {
@@ -306,20 +271,69 @@ export default {
       this.posNamesOptions.push(pos);
       this.$emit("close");
     },
-    saveAddedQuestion() {
-      let details = {
-        shelfNotPromo: this.shelfNotPromo,
-        shelfPrice: this.shelfPrice,
-        abilityofPromo: this.abilityofPromo,
-        product: this.product.label,
-      };
-      this.addMode = false;
-      this.rows.push(details);
-      console.log(details);
+    getSelected(newSelected) {
+      // console.log(`获取selected： ${JSON.stringify(this.selected)}`)
+      // console.log( `getSelected获取newSelected： ${JSON.stringify(newSelected)}`)
+      this.selected = newSelected;
+      console.log(this.selected);
+
+    },
+    clickAllSelect(val) {
+      this.checkAll = !!val;
+      if (val) {
+        this.data.forEach((item) => {
+          this.selected.push(item);
+        });
+      } else {
+        this.selected = []; 
+      }
+    },
+    getSelectedString() {
+      return ""; 
     },
   },
   computed: {
     ...mapState("question", ["questionState"]),
+  },
+  mounted() {
+    let list = [
+      {
+        ID: 1,
+        shelfNotPromo: true,
+        shelfPrice: 300,
+        abilityofPromo: 200,
+        product: "Roshen TOP 112",
+      },
+      {
+        ID: 2,
+        shelfNotPromo: true,
+        shelfPrice: 300,
+        abilityofPromo: 200,
+        product: "Roshen TOP 112",
+      },
+      {
+        ID: 3,
+        shelfNotPromo: true,
+        shelfPrice: 300,
+        abilityofPromo: 200,
+        product: "Roshen TOP 112",
+      },
+      {
+        ID: 4,
+        shelfNotPromo: true,
+        shelfPrice: 300,
+        abilityofPromo: 200,
+        product: "Roshen TOP 112",
+      },
+      {
+        ID: 5,
+        shelfNotPromo: true,
+        shelfPrice: 300,
+        abilityofPromo: 200,
+        product: "Roshen TOP 112",
+      },
+    ];
+    this.rows = list;
   },
 };
 </script>
