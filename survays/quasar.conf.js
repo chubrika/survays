@@ -152,12 +152,17 @@ module.exports = function(ctx) {
     },
 
     cordova: {
-      // id: 'org.cordova.quasar.app'
+      id: 'org.cordova.quasar.app'
       // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
 
+    // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
+    capacitor: {
+      hideSplashscreen: true
+    },
+
     electron: {
-      // bundler: 'builder', // or 'packager'
+      bundler: 'packager', // or 'builder'
 
       extendWebpack(cfg) {
         // do something with Electron main process Webpack cfg
@@ -177,8 +182,9 @@ module.exports = function(ctx) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-        // appId: 'quasar-app'
-      }
+        appId: 'quasar-app'
+      },
+      nodeIntegration: true,
     }
   };
 };

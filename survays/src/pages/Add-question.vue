@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex flex-center" style="min-height: 500px">
+    <div class="flex flex-center" style="margin-top: 35px">
       <div class="size-w--full" style="padding: 10px">
         <q-form style="width: 100%" @submit="submit()">
           <q-stepper v-model="step" header-nav ref="stepper" color="primary" animated>
@@ -90,15 +90,32 @@
                     @click="add()"
                   /> -->
                   <div style="width: 100%">
-                    <q-select
-                      filled
-                      v-model="brand"
-                      :options="brandOptions"
+                    <q-expansion-item
+                      v-model="expanded"
+                      expand-separator
                       label="Choose Brand"
-                      :dense="dense"
-                      multiple
-                      value=""
-                    />
+                      header-class="text-purple"
+                    >
+                      <q-card class="flex flex-column">
+                        <q-card-section style="max-height: 300px; overflow-y: auto">
+                          <q-option-group
+                            :options="brandOptions"
+                            type="checkbox"
+                            v-model="brand"
+                            @input="updateBrands()"
+                          />
+                        </q-card-section>
+                        <q-btn
+                          v-if="showBtnBrand"
+                          :ripple="{ center: true }"
+                          color="secondary"
+                          label="არჩევა"
+                          no-caps
+                          style="width: 200px; margin: 0 auto"
+                          @click="chooseBrandOptions()"
+                        />
+                      </q-card>
+                    </q-expansion-item>
                   </div>
                 </div>
 
@@ -112,7 +129,72 @@
                   selection="single"
                   :selected.sync="selected"
                   @update:selected="getSelected"
+                  @selection="beforeSelection"
                 >
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td>
+                        <q-checkbox v-model="props.selected"></q-checkbox>
+                      </q-td>
+                      <q-td key="ID" :props="props"> {{ props.row.ID }} </q-td>
+                      <q-td key="product" :props="props">
+                        {{ props.row.product }}
+                      </q-td>
+                      <q-td key="shelfPrice" :props="props">
+                        {{ props.row.shelfPrice }}
+                        <q-popup-edit
+                          v-if="isEditable"
+                          v-model="props.row.shelfPrice"
+                          title="Update shelfPrice"
+                          buttons
+                        >
+                          <q-input
+                            type="number"
+                            v-model="props.row.shelfPrice"
+                            dense
+                            autofocus
+                          ></q-input>
+                        </q-popup-edit>
+                      </q-td>
+                      <q-td key="abilityofPromo" :props="props">
+                        <div class="text-pre-wrap">{{ props.row.abilityofPromo }}</div>
+                        <q-popup-edit
+                          v-if="isEditable"
+                          v-model="props.row.abilityofPromo"
+                          title="Update ability of Promo"
+                          buttons
+                        >
+                          <q-input
+                            type="number"
+                            v-model="props.row.abilityofPromo"
+                            dense
+                            autofocus
+                          ></q-input>
+                        </q-popup-edit>
+                      </q-td>
+                      <q-td key="shelfNotPromo" :props="props">
+                        <div class="text-pre-wrap">{{ props.row.shelfNotPromo }}</div>
+                        <q-popup-edit
+                          v-if="isEditable"
+                          v-model="props.row.shelfNotPromo"
+                          title="აქვს თუ არა აქციის ფასი?"
+                          buttons
+                        >
+                          <q-option-group
+                            :options="[
+                              { label: 'Yes', value: 'true' },
+                              {
+                                label: 'No',
+                                value: 'false',
+                              },
+                            ]"
+                            type="radio"
+                            v-model="props.row.shelfNotPromo"
+                          />
+                        </q-popup-edit>
+                      </q-td>
+                    </q-tr>
+                  </template>
                 </q-table>
               </div>
               <q-stepper-navigation class="footer-actions">
@@ -144,7 +226,7 @@
       <q-dialog v-model="prompt" persistent>
         <q-card style="min-width: 350px">
           <q-card-section>
-            <div class="text-h6">Add POS Address</div>
+            <div class="text-h6">Add POS</div>
           </q-card-section>
 
           <q-card-section class="q-pt-none">
@@ -178,10 +260,12 @@ export default {
   name: "AddQuestions",
   data() {
     return {
+      isEditable: false,
+      expanded: false,
       prompt: false,
       dense: true,
       date: "",
-      brand: null,
+      brand: [],
       address: null,
       posNames: null,
       trade: null,
@@ -190,10 +274,18 @@ export default {
       addPosAddress: null,
       selected: [],
       checkAll: false,
+      showBtnBrand: false,
       brandOptions: [
         { value: "1", label: "Rocher" },
         { value: "2", label: "Raffaello" },
         { value: "3", label: "Kinder Chocolate" },
+        { value: "4", label: "Nutella" },
+        { value: "5", label: "baunt" },
+        { value: "6", label: "baunt" },
+        { value: "7", label: "baunt" },
+        { value: "8", label: "baunt" },
+        { value: "9", label: "baunt" },
+        { value: "10", label: "baunt" },
       ],
       posNamesOptions: [
         { value: "1", label: "Magnit-Tbilisi, Agmashenebeli street, 45" },
@@ -250,16 +342,15 @@ export default {
   methods: {
     ...mapActions("question", ["setQuestionState"]),
     submit() {
-      let question = {
-        brand: this.brand.label,
-        address: this.address.label,
-        posNames: this.posNames.label,
-        trade: this.trade.label,
-        date: this.date,
-        details: this.rows,
-      };
-      console.log(question);
-      this.setQuestionState(question);
+      // let question = {
+      //   address: this.address.label,
+      //   posNames: this.posNames.label,
+      //   trade: this.trade.label,
+      //   date: this.date,
+      //   details: this.rows,
+      // };
+      // console.log(question);
+      // this.setQuestionState(question);
       this.$router.push("/");
     },
     addPos() {
@@ -269,14 +360,27 @@ export default {
         label: this.addPosName + "-" + this.addPosAddress,
       };
       this.posNamesOptions.push(pos);
-      this.$emit("close");
+      this.prompt = false;
     },
     getSelected(newSelected) {
       // console.log(`获取selected： ${JSON.stringify(this.selected)}`)
       // console.log( `getSelected获取newSelected： ${JSON.stringify(newSelected)}`)
       this.selected = newSelected;
-      console.log(this.selected);
-
+    },
+    beforeSelection(value) {
+      console.log(value);
+      this.isEditable = true;
+    },
+    updateBrands() {
+      console.log(this.brand);
+      if (this.brand.length > 0) {
+        this.showBtnBrand = true;
+      } else {
+        this.showBtnBrand = false;
+      }
+    },
+    chooseBrandOptions() {
+      this.expanded = false;
     },
     clickAllSelect(val) {
       this.checkAll = !!val;
@@ -285,11 +389,11 @@ export default {
           this.selected.push(item);
         });
       } else {
-        this.selected = []; 
+        this.selected = [];
       }
     },
     getSelectedString() {
-      return ""; 
+      return "";
     },
   },
   computed: {
