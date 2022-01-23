@@ -96,13 +96,20 @@
 
 .group {
     border-radius: 5px;
-    padding      : 7px;
-    border       : 1px solid #e8e8e8;
+    padding: 7px;
+    border: 1px solid #e8e8e8;
+    background: #cbe5ff1a;
 
     &-title {
         font-size    : 16px;
         font-weight  : 600;
-        color        : #7e57c2;
+        color        : #717882;
         margin-bottom: 10px;
     }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

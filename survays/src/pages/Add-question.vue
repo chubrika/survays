@@ -7,7 +7,7 @@
             <q-step :name="1" title="General info" icon="settings" :done="done1">
               <div class="q-pb-sm">
                 <q-select
-                  filled
+                  outlined
                   bottom-slots
                   v-model="posNames"
                   :options="posNamesOptions"
@@ -22,7 +22,7 @@
               </div>
               <div class="q-pb-sm">
                 <q-select
-                  filled
+                  outlined
                   v-model="trade"
                   :options="tradeOptions"
                   label="Trade channel"
@@ -34,7 +34,7 @@
                 <q-input
                   v-model="date"
                   :dense="dense"
-                  filled
+                  outlined
                   type="date"
                   hint="Date of visit"
                 />
@@ -74,7 +74,7 @@
                       v-model="expanded"
                       expand-separator
                       label="Choose Brand"
-                      header-class="text-purple"
+                      header-class="text-primary"
                     >
                       <q-card class="flex flex-column">
                         <q-card-section style="max-height: 300px; overflow-y: auto">
@@ -218,7 +218,7 @@
                   <q-input
                     v-model="posCount"
                     :dense="dense"
-                    filled
+                    outlined
                     type="number"
                     label="სულ სალაროების რაოდ."
                   />
@@ -227,7 +227,7 @@
                   <q-input
                     v-model="posFereroCount"
                     :dense="dense"
-                    filled
+                    outlined
                     type="number"
                     label="სალაროს რაოდ. ფერეროს პროდუქციით"
                   />
@@ -238,7 +238,7 @@
                       v-model="expanded"
                       expand-separator
                       label="მონიშნეთ სალაროები რომელბზეც განთავსებულია ფერეროს პროდუქცია 70-140 სმ- სიმაღლეზე"
-                      header-class="text-purple"
+                      header-class="text-primary"
                     >
                       <q-card class="flex flex-column">
                         <q-card-section style="max-height: 300px; overflow-y: auto">
@@ -266,9 +266,9 @@
                   <q-input
                     v-model="percentPos"
                     :dense="dense"
-                    filled
+                    outlined
                     type="number"
-                    disable
+                    readonly
                     label="პროცენტული რაოდენობა სალაროების რომლებზეც განთავსებულია ფერეროს პროდუქცია  70-140 სმ სიმაღლეზე"
                   />
                 </div>
@@ -280,7 +280,7 @@
                     <q-expansion-item
                       expand-separator
                       label="მონიშნეთ სალაროები რომელბზეც განთავსებულია ფერეროს პროდუქცია 70-140 სმ- სიმაღლეზე"
-                      header-class="text-purple"
+                      header-class="text-primary"
                     >
                       <q-card class="flex flex-column">
                         <q-card-section style="max-height: 300px; overflow-y: auto">
@@ -288,7 +288,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos1"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 1"
                             />
@@ -297,7 +297,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos2"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 2"
                             />
@@ -306,7 +306,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos3"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 3"
                               @change="posSum()"
@@ -316,7 +316,7 @@
                             <q-input
                               :dense="dense"
                               v-model="sumPos"
-                              filled
+                              outlined
                               disable
                               type="number"
                               label="სულ ჯამი"
@@ -335,7 +335,7 @@
                     <q-expansion-item
                       expand-separator
                       label="სიგანეზე განლაგებული პროდუქციის ზომა სმ-ში"
-                      header-class="text-purple"
+                      header-class="text-primary"
                     >
                       <q-card class="flex flex-column">
                         <q-card-section style="max-height: 300px; overflow-y: auto">
@@ -343,7 +343,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos1"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 1"
                             />
@@ -352,7 +352,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos2"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 2"
                             />
@@ -361,7 +361,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos3"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 3"
                               @change="posSum()"
@@ -371,8 +371,8 @@
                             <q-input
                               :dense="dense"
                               v-model="sumPos"
-                              filled
-                              disable
+                              outlined
+                              readonly
                               type="number"
                               label="სულ ჯამი"
                             />
@@ -390,7 +390,7 @@
                     <q-expansion-item
                       expand-separator
                       label="სიგანეზე განლაგებული პროდუქციის ზომა სმ-ში"
-                      header-class="text-purple"
+                      header-class="text-primary"
                     >
                       <q-card class="flex flex-column">
                         <q-card-section style="max-height: 300px; overflow-y: auto">
@@ -398,7 +398,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos1"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 1"
                             />
@@ -407,7 +407,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos2"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 2"
                             />
@@ -416,7 +416,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos3"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 3"
                               @change="posSum()"
@@ -426,7 +426,7 @@
                             <q-input
                               :dense="dense"
                               v-model="sumPos"
-                              filled
+                              outlined
                               disable
                               type="number"
                               label="სულ ჯამი"
@@ -445,7 +445,7 @@
                     <q-expansion-item
                       expand-separator
                       label="სიგანეზე განლაგებული პროდუქციის ზომა სმ-ში"
-                      header-class="text-purple"
+                      header-class="text-primary"
                     >
                       <q-card class="flex flex-column">
                         <q-card-section style="max-height: 300px; overflow-y: auto">
@@ -453,7 +453,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos1"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 1"
                             />
@@ -462,7 +462,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos2"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 2"
                             />
@@ -471,7 +471,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos3"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 3"
                               @change="posSum()"
@@ -481,7 +481,7 @@
                             <q-input
                               :dense="dense"
                               v-model="sumPos"
-                              filled
+                              outlined
                               disable
                               type="number"
                               label="სულ ჯამი"
@@ -502,7 +502,7 @@
                     <q-expansion-item
                       expand-separator
                       label="სიგანეზე განლაგებული პროდუქციის ზომა სმ-ში"
-                      header-class="text-purple"
+                      header-class="text-primary"
                     >
                       <q-card class="flex flex-column">
                         <q-card-section style="max-height: 300px; overflow-y: auto">
@@ -510,7 +510,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos1"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 1"
                             />
@@ -519,7 +519,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos2"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 2"
                             />
@@ -528,7 +528,7 @@
                             <q-input
                               :dense="dense"
                               v-model="pos3"
-                              filled
+                              outlined
                               type="number"
                               label="სალარო 3"
                               @change="posSum()"
@@ -538,7 +538,7 @@
                             <q-input
                               :dense="dense"
                               v-model="sumPos"
-                              filled
+                              outlined
                               disable
                               type="number"
                               label="სულ ჯამი"
@@ -556,7 +556,7 @@
                   <q-input
                     :dense="dense"
                     v-model="sumPos"
-                    filled
+                    outlined
                     disable
                     type="number"
                     label="სულ სიგანეში განლაგებულის ჯამი"
@@ -598,14 +598,14 @@
           <q-card-section class="q-pt-none">
             <q-input
               label="POS Name"
-              filled
+              outlined
               :dense="dense"
               v-model="addPosName"
               autofocus
             />
           </q-card-section>
           <q-card-section class="q-pt-none">
-            <q-input label="POS Address" filled :dense="dense" v-model="addPosAddress" />
+            <q-input label="POS Address" outlined :dense="dense" v-model="addPosAddress" />
           </q-card-section>
 
           <q-card-actions align="right" class="text-primary">
